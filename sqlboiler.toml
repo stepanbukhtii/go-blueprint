@@ -1,0 +1,50 @@
+output = "./internal/repository/postgres/model"
+pkgname = "model"
+no-tests = true
+wipe=true
+
+[psql]
+dbname = "postgres"
+host = "localhost"
+port = 5432
+user = "postgres"
+pass = "password"
+sslmode = "disable"
+schema = "public"
+blacklist = ["goose_db_version"]
+
+[[types]]
+[types.match]
+type = "types.Decimal"
+
+[types.replace]
+type = "decimal.Decimal"
+
+[types.imports]
+third_party = ['"github.com/shopspring/decimal"']
+
+[[types]]
+[types.match]
+type = "types.NullDecimal"
+nullable = true
+
+[types.replace]
+type = "decimal.NullDecimal"
+
+[types.imports]
+third_party = ['"github.com/shopspring/decimal"']
+
+[[types]]
+[types.match]
+type = "null.JSON"
+nullable = true
+
+[types.replace]
+type = "null.String"
+
+[[types]]
+[types.match]
+type = "types.JSON"
+
+[types.replace]
+type = "string"
