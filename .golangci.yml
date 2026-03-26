@@ -1,0 +1,21 @@
+run:
+  # Include test files or not.
+  # Default: true
+  tests: false
+linters:
+  # Enable specific linter
+  # https://golangci-lint.run/usage/linters/#enabled-by-default
+  enable:
+    - bodyclose
+    - dupl
+    - funlen
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - gosec
+    - lll
+    - prealloc
+    - revive
+    - unconvert
+    - unparam

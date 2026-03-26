@@ -1,0 +1,45 @@
+no_tests: true
+
+plugins_preset: 'none'
+plugins:
+  dbinfo:
+    disabled: false
+    pkgname: 'dbinfo'
+    destination: './internal/repository/postgres/dbinfo'
+  enums:
+    disabled: false
+    pkgname: 'enums'
+    destination: './internal/repository/postgres/enums'
+  models:
+    disabled: false
+    pkgname: 'models'
+    destination: './internal/repository/postgres/models'
+  factory:
+    disabled: false
+    pkgname: 'factory'
+    destination: './internal/repository/postgres/factory'
+  dberrors:
+    disabled: false
+    pkgname: 'dberrors'
+    destination: './internal/repository/postgres/dberrors'
+  where:
+    disabled: false
+  loaders:
+    disabled: false
+  joins:
+    disabled: false
+  counts:
+    disabled: false
+
+psql:
+  driver: "github.com/jackc/pgx/v5/stdlib"
+  dsn: "postgres://postgres:password@localhost:5432/postgres?sslmode=disable"
+  schemas: ["public"]
+  except:
+    goose_db_version:
+
+replacements:
+  - tables: []
+    match:
+      db_type: 'uuid'
+    replace: 'string'
