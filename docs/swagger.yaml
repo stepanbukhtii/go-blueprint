@@ -1,0 +1,475 @@
+basePath: /api/v1
+definitions:
+  api.Response:
+    properties:
+      data: {}
+      error:
+        type: string
+      meta: {}
+      status:
+        type: string
+    type: object
+  request.CreateCompany:
+    properties:
+      logo_url:
+        type: string
+      manager_id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+    required:
+    - name
+    - owner_id
+    type: object
+  request.CreateUser:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - username
+    type: object
+  request.CreateUserType:
+    properties:
+      code:
+        type: string
+      is_admin:
+        type: boolean
+      name:
+        type: string
+    required:
+    - code
+    - is_admin
+    - name
+    type: object
+  request.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  request.UpdateCompany:
+    properties:
+      companyID:
+        type: string
+      logo_url:
+        type: string
+      name:
+        type: string
+    required:
+    - companyID
+    type: object
+  request.UpdateUser:
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+  request.UpdateUserType:
+    properties:
+      is_admin:
+        type: boolean
+      name:
+        type: string
+    required:
+    - is_admin
+    - name
+    type: object
+  response.Company:
+    properties:
+      id:
+        type: string
+      is_active:
+        type: boolean
+      logo_url:
+        type: string
+      manager_id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+    type: object
+  response.User:
+    properties:
+      age:
+        type: integer
+      balance:
+        type: number
+      description:
+        type: string
+      id:
+        type: string
+      initial_age:
+        type: integer
+      is_active:
+        type: boolean
+      last_login:
+        type: string
+      last_rate:
+        type: number
+      lock_balance:
+        type: number
+      name:
+        type: string
+      password:
+        type: string
+      public_name:
+        type: string
+      rate:
+        type: number
+      read_message:
+        type: boolean
+      username:
+        type: string
+    type: object
+  response.UserType:
+    properties:
+      code:
+        type: string
+      is_admin:
+        type: boolean
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server
+  title: Blueprint Swagger Example API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      parameters:
+      - description: Login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.Login'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: List of users
+      tags:
+      - auth
+  /companies:
+    get:
+      parameters:
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: per_page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Company'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List of companies
+      tags:
+      - companies
+    post:
+      parameters:
+      - description: Create company
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateCompany'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Company'
+      security:
+      - ApiKeyAuth: []
+      summary: Create company
+      tags:
+      - companies
+  /companies/{company_id}:
+    delete:
+      parameters:
+      - description: Company ID
+        in: path
+        name: company_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Delete company
+      tags:
+      - companies
+    get:
+      parameters:
+      - description: Company ID
+        in: path
+        name: company_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Company'
+      security:
+      - ApiKeyAuth: []
+      summary: Get company
+      tags:
+      - companies
+    patch:
+      parameters:
+      - description: Company ID
+        in: path
+        name: company_id
+        required: true
+        type: string
+      - description: Update company
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateCompany'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Company'
+      security:
+      - ApiKeyAuth: []
+      summary: Update company
+      tags:
+      - companies
+  /companies/multiple:
+    post:
+      parameters:
+      - description: Create multiple company
+        in: body
+        name: request
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/request.CreateCompany'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Company'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Create multiple company
+      tags:
+      - companies
+  /companies/owner:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Company'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get companies by owner id
+      tags:
+      - companies
+  /user-types:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.UserType'
+            type: array
+      summary: List of user types
+      tags:
+      - user-types
+    post:
+      parameters:
+      - description: Create user type
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateUserType'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserType'
+      summary: Create user type
+      tags:
+      - user-types
+  /user-types/{user_type_code}:
+    delete:
+      parameters:
+      - description: Delete user type
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUser'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: Delete user type
+      tags:
+      - user-types
+    get:
+      parameters:
+      - description: User type code
+        in: path
+        name: user_type_code
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserType'
+      summary: Get user
+      tags:
+      - user-types
+    patch:
+      parameters:
+      - description: User type code
+        in: path
+        name: user_type_code
+        required: true
+        type: string
+      - description: Update user type
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUserType'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.UserType'
+      summary: Update user
+      tags:
+      - user-types
+  /users:
+    get:
+      parameters:
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: per_page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.User'
+            type: array
+      summary: List of users
+      tags:
+      - users
+    post:
+      parameters:
+      - description: Create user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateUser'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.User'
+      summary: Create user
+      tags:
+      - users
+  /users/{user_id}:
+    delete:
+      parameters:
+      - description: Delete user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUser'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: Delete user
+      tags:
+      - users
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.User'
+      summary: Get user
+      tags:
+      - users
+    patch:
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Update user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateUser'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.User'
+      summary: Update user
+      tags:
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

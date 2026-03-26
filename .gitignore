@@ -1,0 +1,11 @@
+.env
+
+# Intellij
+.idea
+.claude
+
+# VS Code
+.vscode
+
+# Mac
+.DS_Store

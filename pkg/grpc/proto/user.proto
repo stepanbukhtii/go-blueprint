@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "github.com/stepanbukhtii/go-blueprint/pkg/grpc/proto";
+
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc One (OneRequest) returns (User);
+}
+
+message OneRequest {
+  string id = 1;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+  string public_name = 4;
+  string description = 5;
+  int64 age = 6;
+  int64 initial_age = 7;
+  double rate = 8;
+  optional double last_rate = 9;
+  bool is_active = 10;
+  optional bool read_message = 11;
+  double balance = 12;
+  optional double lock_balance = 13;
+  optional google.protobuf.Timestamp last_login = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
